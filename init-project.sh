@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # init-project.sh — 个人项目初始化脚本
-# 严格四步走：git init → .gitignore → opencode.json → Matt Pocock Skills
+# 严格五步走：git init → .gitignore → opencode.json → Matt Pocock Skills → AGENTS.md
 
 CURRENT_DIR=$(pwd)
 
@@ -195,9 +195,28 @@ else
   echo "✔ Matt Pocock Skills 已安装"
 fi
 
+# ── Step 5: AGENTS.md (CodeGraph 指令) ──
+if [ -f "AGENTS.md" ]; then
+  echo "✔ AGENTS.md 已存在，跳过"
+else
+  cat > AGENTS.md << 'AGENTS_EOF'
+<!-- CODEGRAPH_START -->
+## CodeGraph
+
+In repositories indexed by CodeGraph (a `.codegraph/` directory exists at the repo root), reach for it BEFORE grep/find or reading files when you need to understand or locate code:
+
+- **MCP tool** (when available): `codegraph_explore` answers most code questions in one call — the relevant symbols' verbatim source plus the call paths between them, including dynamic-dispatch hops grep can't follow. Name a file or symbol in the query to read its current line-numbered source. If it's listed but deferred, load it by name via tool search.
+- **Shell** (always works): `codegraph explore "<symbol names or question>"` prints the same output.
+
+If there is no `.codegraph/` directory, skip CodeGraph entirely — indexing is the user's decision.
+<!-- CODEGRAPH_END -->
+AGENTS_EOF
+  echo "✔ AGENTS.md 已写入"
+fi
+
 echo ""
 echo "========================"
-echo " 四步初始化完成！"
+echo " 五步初始化完成！"
 echo " 当前目录: $CURRENT_DIR"
 echo "========================"
 echo ""
