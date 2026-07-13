@@ -14,15 +14,19 @@ cd my-new-project
 init-project.sh
 ```
 
-脚本自动完成五步：
+脚本会先检测当前目录是否已初始化（检测 `.git/`），询问确认后进入选择流程。然后自动执行：
 
-| Step | 操作 | 幂等 |
+| Step | 操作 | 条件 |
 |------|------|------|
-| 1 | `git init` | `.git/` 已存在则跳过 |
-| 2 | 写入 `.gitignore`（覆盖全场景） | 已存在则跳过 |
-| 3 | 写入 `opencode.json`（MCP 配置） | 已存在则跳过 |
-| 4 | 安装 Matt Pocock Skills | `.agents/skills/` 已存在则跳过 |
-| 5 | 写入 `AGENTS.md`（CodeGraph 指令） | 已存在则跳过 |
+| 1 | `git init` | 共用 |
+| 2 | 写入 `.gitignore`（覆盖全场景） | 共用 |
+| 3A | 写入 `opencode.json`（MCP 配置） | 选 OpenCode 时 |
+| 3B | 写入 `.claude/settings.json`（MCP 配置） | 选 Claude 时 |
+| 4 | 安装技能组（Matt Pocock Skills / Trellis） | 按选择 |
+| 5A | 写入 `AGENTS.md`（CodeGraph 指令） | 选 OpenCode 时 |
+| 5B | 写入 `CLAUDE.md`（CodeGraph 指令） | 选 Claude 时 |
+
+所有步骤保持幂等，已存在则跳过。
 
 ### 安装到 PATH
 
