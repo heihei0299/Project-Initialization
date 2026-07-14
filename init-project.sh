@@ -111,7 +111,7 @@ echo ""
 
 # ── Step 1: git init ──
 
-echo "[Step 1/5] 初始化 Git 仓库"
+echo "[Step 1/6] 初始化 Git 仓库"
 if [ -d ".git" ]; then
   echo "  ✔ .git/ 已存在，跳过"
 else
@@ -122,20 +122,20 @@ echo ""
 
 # ── Step 2: .gitignore ──
 
-echo "[Step 2/5] 写入 .gitignore"
+echo "[Step 2/6] 写入 .gitignore"
 ensure_file ".gitignore" "$SCRIPT_DIR/templates/gitignore" ".gitignore"
 echo ""
 
 # ── Step 3: 工具配置文件 ──
 
 if $use_opencode; then
-  echo "[Step 3A/5] 写入 OpenCode 配置 (opencode.json)"
+  echo "[Step 3A/6] 写入 OpenCode 配置 (opencode.json)"
   ensure_file "opencode.json" "$SCRIPT_DIR/templates/opencode.json" "opencode.json"
   echo ""
 fi
 
 if $use_claude; then
-  echo "[Step 3B/5] 写入 Claude MCP 配置 (.claude/settings.json)"
+  echo "[Step 3B/6] 写入 Claude MCP 配置 (.claude/settings.json)"
   ensure_dir ".claude" ".claude"
   ensure_file ".claude/settings.json" "$SCRIPT_DIR/templates/claude-settings.json" ".claude/settings.json"
   echo ""
@@ -143,7 +143,7 @@ fi
 
 # ── Step 4: 技能组 ──
 
-echo "[Step 4/5] 安装技能组"
+echo "[Step 4/6] 安装技能组"
 
 if $use_mpskills; then
   if [ -d ".agents/skills" ]; then
@@ -166,16 +166,46 @@ echo ""
 # ── Step 5: 项目指令文件 ──
 
 if $use_opencode; then
-  echo "[Step 5A/5] 写入 AGENTS.md"
+  echo "[Step 5A/6] 写入 AGENTS.md"
   ensure_file "AGENTS.md" "$SCRIPT_DIR/templates/AGENTS.md" "AGENTS.md"
   echo ""
 fi
 
 if $use_claude; then
-  echo "[Step 5B/5] 写入 CLAUDE.md"
+  echo "[Step 5B/6] 写入 CLAUDE.md"
   ensure_file "CLAUDE.md" "$SCRIPT_DIR/templates/CLAUDE.md" "CLAUDE.md"
   echo ""
 fi
+
+# ── Step 6: CodeGraph 索引 ──
+
+echo "[Step 6/6] CodeGraph 索引"
+
+detect_codebase() {
+  [ -d "src" ] && return 0
+  for ext in py js ts rs go java c cpp h rb php cs; do
+    if find . -maxdepth 1 -name "*.${ext}" -print -quit 2>/dev/null | grep -q .; then
+      return 0
+    fi
+  done
+  for build_file in Cargo.toml go.mod pom.xml build.gradle; do
+    [ -f "$build_file" ] && return 0
+  done
+  return 1
+}
+
+if detect_codebase; then
+  if yes_no "  是否初始化 CodeGraph 索引？" "n"; then
+    echo "  → 正在初始化 CodeGraph..."
+    codegraph init
+    echo "  ✔ CodeGraph 索引已创建"
+  else
+    echo "  - 跳过 CodeGraph 初始化"
+  fi
+else
+  echo "  - 未检测到源文件，跳过 CodeGraph init"
+fi
+echo ""
 
 # ── 完成 ──
 
