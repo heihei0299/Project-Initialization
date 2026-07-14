@@ -1,6 +1,6 @@
 # Project Initialization
 
-个人项目初始化模板。包含一键初始化脚本和预配置的 Matt Pocock Skills。
+个人项目初始化模板。支持 OpenCode / Claude 双工具选择，可选安装 Matt Pocock Skills 或 Trellis 技能组。
 
 ## 使用方式
 
@@ -20,11 +20,12 @@ init-project.sh
 |------|------|------|
 | 1 | `git init` | 共用 |
 | 2 | 写入 `.gitignore`（覆盖全场景） | 共用 |
-| 3A | 写入 `opencode.json`（MCP 配置） | 选 OpenCode 时 |
-| 3B | 写入 `.claude/settings.json`（MCP 配置） | 选 Claude 时 |
-| 4 | 安装技能组（Matt Pocock Skills / Trellis） | 按选择 |
-| 5A | 写入 `AGENTS.md`（CodeGraph 指令） | 选 OpenCode 时 |
-| 5B | 写入 `CLAUDE.md`（CodeGraph 指令） | 选 Claude 时 |
+| 3 | 写入 `opencode.json`（MCP 配置） | 选 OpenCode 时 |
+| 4 | 写入 `.claude/settings.json`（MCP 配置） | 选 Claude 时 |
+| 5 | 安装技能组（Matt Pocock Skills / Trellis） | 按选择 |
+| 6 | 注入 OpenCode 命令别名 (`grw`/`gm`/`tp`/`tc`/`cw`/`implement`) | OpenCode + Matt's Skills 时 |
+| 7 | 写入 `AGENTS.md` / `CLAUDE.md`（CodeGraph 指令） | 按工具选择 |
+| 8 | CodeGraph 索引（可选，检测代码库时询问） | 共用 |
 
 所有步骤保持幂等，已存在则跳过。
 
@@ -42,9 +43,11 @@ cp init-project.sh ~/bin/init-project.sh
 
 ```
 templates/
-├── gitignore          → 新项目的 .gitignore
-├── opencode.json      → 新项目的 opencode.json
-└── AGENTS.md          → 新项目的 AGENTS.md
+├── gitignore              → 新项目的 .gitignore
+├── opencode.json          → 新项目的 opencode.json
+├── claude-settings.json   → 新项目的 .claude/settings.json
+├── AGENTS.md              → 新项目的 AGENTS.md / CLAUDE.md
+└── CLAUDE.md              → （已弃用，从 AGENTS.md 拷贝）
 ```
 
 修改对应文件即可，无需改动 `init-project.sh` 本身。
@@ -54,18 +57,22 @@ templates/
 ### 结构说明
 
 ```
-├── init-project.sh      — 初始化脚本（五步走）
-├── opencode.json        — opencode MCP 配置（symlink → templates/）
-├── skills-lock.json     — skills 版本锁定
+├── init-project.sh            — 初始化脚本（入口检测 → 工具选择 → 条件执行）
+├── opencode.json              — opencode MCP 配置
+├── CONTEXT.md                 — 领域术语表
+├── skills-lock.json           — skills 版本锁定
 ├── templates/
-│   ├── gitignore        — 覆盖全场景的 .gitignore
-│   ├── opencode.json    — MCP 服务器配置
-│   └── AGENTS.md        — CodeGraph 指令文档
-└── .agents/skills/      — Matt Pocock Skills（预安装）
+│   ├── gitignore              — 覆盖全场景的 .gitignore
+│   ├── opencode.json          — MCP 服务器配置 + 命令别名
+│   ├── claude-settings.json   — Claude MCP 服务器配置
+│   └── AGENTS.md              — CodeGraph 指令文档
+├── docs/
+│   └── adr/                   — 架构决策记录
+└── .agents/skills/            — Matt Pocock Skills（预安装）
 ```
 
 ### 相关技巧
 
 - **skills 更新**: `.agents/skills/` 和 `skills-lock.json` 由 `npx skills@latest add mattpocock/skills` 管理
 - **新增步骤**: 编辑 `init-project.sh`，在对应位置添加新步骤，使用 `ensure_file` 保持幂等
-- **opencode.json**: 根目录为 symlink，编辑 `templates/opencode.json` 即可
+- **opencode.json**: 编辑 `templates/opencode.json` 即可，别名在 Step 6 自动注入
