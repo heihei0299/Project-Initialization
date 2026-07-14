@@ -22,3 +22,11 @@ Five canonical triage labels mapped to GitHub label strings: `needs-triage`, `ne
 ### Domain docs
 
 Single-context layout — a single `CONTEXT.md` at the repo root plus `docs/adr/`. See `docs/agents/domain.md`.
+
+### 对话后不自动操作
+
+使用 `grill-with-docs`、`wayfinder`、`grill-me`、`to-spec`、`to-tickets` 技能与用户完成讨论后，不得：
+- 对工作目录下的任何文件执行写操作（创建、修改、删除）
+- 执行任何命令
+
+如需执行上述操作，必须先获得用户明确确认。

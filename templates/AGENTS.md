@@ -8,3 +8,25 @@ In repositories indexed by CodeGraph (a `.codegraph/` directory exists at the re
 
 If there is no `.codegraph/` directory, skip CodeGraph entirely — indexing is the user's decision.
 <!-- CODEGRAPH_END -->
+
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs live as GitHub issues, accessed via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Five canonical triage labels mapped to GitHub label strings: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout — a single `CONTEXT.md` at the repo root plus `docs/adr/`. See `docs/agents/domain.md`.
+
+### 对话后不自动操作
+
+使用 `grill-with-docs`、`wayfinder`、`grill-me`、`to-spec`、`to-tickets` 技能与用户完成讨论后，不得：
+- 对工作目录下的任何文件执行写操作（创建、修改、删除）
+- 执行任何命令
+
+如需执行上述操作，必须先获得用户明确确认。
