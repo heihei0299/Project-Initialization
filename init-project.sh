@@ -186,7 +186,8 @@ aliases = {
     'gm': {'template': 'Run the grill-me skill workflow.', 'description': 'Run grill-me'},
     'tp': {'template': 'Run the to-spec skill workflow.', 'description': 'Run to-spec'},
     'tc': {'template': 'Run the to-tickets skill workflow.', 'description': 'Run to-tickets'},
-    'cw': {'template': 'Run the code-review skill workflow.', 'description': 'Run code-review'}
+    'cw': {'template': 'Run the code-review skill workflow.', 'description': 'Run code-review'},
+    'implement': {'template': 'Run the implement skill workflow.', 'description': 'Run implement'}
 }
 cfg.setdefault('command', {}).update(aliases)
 with open('opencode.json', 'w') as f:

@@ -1,26 +1,66 @@
 {
   "$schema": "https://opencode.ai/config.json",
-
   "mcp": {
     "context7": {
-      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp"
+      ],
       "enabled": true,
       "type": "local"
     },
     "fetch": {
-      "command": ["uvx", "mcp-server-fetch"],
+      "command": [
+        "uvx",
+        "mcp-server-fetch"
+      ],
       "enabled": true,
       "type": "local"
     },
     "playwright": {
-      "command": ["npx", "-y", "@playwright/mcp@0.0.50"],
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@0.0.50"
+      ],
       "enabled": true,
       "type": "local"
     },
     "codegraph": {
-      "command": ["codegraph", "serve", "--mcp"],
+      "command": [
+        "codegraph",
+        "serve",
+        "--mcp"
+      ],
       "enabled": true,
       "type": "local"
+    }
+  },
+  "command": {
+    "grw": {
+      "template": "Run the grill-with-docs skill workflow.",
+      "description": "Run grill-with-docs"
+    },
+    "gm": {
+      "template": "Run the grill-me skill workflow.",
+      "description": "Run grill-me"
+    },
+    "tp": {
+      "template": "Run the to-spec skill workflow.",
+      "description": "Run to-spec"
+    },
+    "tc": {
+      "template": "Run the to-tickets skill workflow.",
+      "description": "Run to-tickets"
+    },
+    "cw": {
+      "template": "Run the code-review skill workflow.",
+      "description": "Run code-review"
+    },
+    "implement": {
+      "template": "Run the implement skill workflow.",
+      "description": "Run implement"
     }
   }
 }
