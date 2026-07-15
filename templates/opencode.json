@@ -36,35 +36,5 @@
       "enabled": true,
       "type": "local"
     }
-  },
-  "command": {
-    "gwd": {
-      "templateFile": ".opencode/commands/gwd.md",
-      "description": "Run grill-with-docs"
-    },
-    "ica": {
-      "templateFile": ".opencode/commands/ica.md",
-      "description": "Run improve-codebase-architecture"
-    },
-    "gm": {
-      "templateFile": ".opencode/commands/gm.md",
-      "description": "Run grill-me"
-    },
-    "tp": {
-      "templateFile": ".opencode/commands/tp.md",
-      "description": "Run to-spec"
-    },
-    "tc": {
-      "templateFile": ".opencode/commands/tc.md",
-      "description": "Run to-tickets"
-    },
-    "cw": {
-      "templateFile": ".opencode/commands/cw.md",
-      "description": "Run code-review"
-    },
-    "implement": {
-      "templateFile": ".opencode/commands/implement.md",
-      "description": "Run implement"
-    }
   }
 }
