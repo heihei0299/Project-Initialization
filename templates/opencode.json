@@ -38,9 +38,13 @@
     }
   },
   "command": {
-    "grw": {
+    "gwd": {
       "template": "Run the grill-with-docs skill workflow.",
       "description": "Run grill-with-docs"
+    },
+    "ica": {
+      "template": "Run the improve-codebase-architecture skill workflow.",
+      "description": "Run improve-codebase-architecture"
     },
     "gm": {
       "template": "Run the grill-me skill workflow.",

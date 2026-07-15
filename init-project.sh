@@ -194,7 +194,8 @@ import json
 with open('opencode.json') as f:
     cfg = json.load(f)
 aliases = {
-    'grw': {'template': 'Run the grill-with-docs skill workflow.', 'description': 'Run grill-with-docs'},
+    'gwd': {'template': 'Run the grill-with-docs skill workflow.', 'description': 'Run grill-with-docs'},
+    'ica': {'template': 'Run the improve-codebase-architecture skill workflow.', 'description': 'Run improve-codebase-architecture'},
     'gm': {'template': 'Run the grill-me skill workflow.', 'description': 'Run grill-me'},
     'tp': {'template': 'Run the to-spec skill workflow.', 'description': 'Run to-spec'},
     'tc': {'template': 'Run the to-tickets skill workflow.', 'description': 'Run to-tickets'},
