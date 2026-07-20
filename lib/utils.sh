@@ -40,8 +40,8 @@ prompt_choice() {
 
   echo "$prompt" >&2
   for entry in "${choices_ref[@]}"; do
-    IFS='|' read -r key label _ <<< "$entry"
-    echo "  [$key] $label" >&2
+    IFS='|' read -r key val desc <<< "$entry"
+    echo "  [$key] $desc" >&2
   done
 
   local result
@@ -56,6 +56,27 @@ prompt_choice() {
   done
 
   return 1
+}
+
+confirm_and_run() {
+  local label="$1"
+  local prompt="$2"
+  local default="$3"
+  shift 3
+
+  if ! yes_no "$prompt" "$default"; then
+    echo "  - 跳过 $label"
+    return 1
+  fi
+
+  if ! cmd_available "$1"; then
+    echo "  - $1 未安装，跳过"
+    return 1
+  fi
+
+  echo "  → 正在初始化 $label..."
+  "$@"
+  echo "  ✔ $label 已创建"
 }
 
 yes_no() {

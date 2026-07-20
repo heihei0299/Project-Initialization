@@ -70,16 +70,5 @@ step5_aliases() {
 
 step6_codegraph() {
   step_echo 6
-
-  if yes_no "  是否初始化 CodeGraph 索引？" "n"; then
-    if cmd_available codegraph; then
-      echo "  → 正在初始化 CodeGraph..."
-      codegraph init
-      echo "  ✔ CodeGraph 索引已创建"
-    else
-      echo "  - codegraph CLI 未安装，跳过"
-    fi
-  else
-    echo "  - 跳过 CodeGraph 初始化"
-  fi
+  confirm_and_run "CodeGraph 索引" "  是否初始化 CodeGraph 索引？" "n" codegraph init
 }
