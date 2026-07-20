@@ -2,7 +2,6 @@ TEMPLATES_DIR="$SCRIPT_DIR/templates"
 
 STEP_LABELS=(
   "初始化 Git 仓库"
-  "写入 .gitignore"
   "写入配置文件"
   "安装技能组"
   "注入 OpenCode 命令别名"
@@ -15,6 +14,7 @@ step_echo() {
 }
 
 TEMPLATE_MAP=(
+  "always|.gitignore|gitignore"
   "opencode|opencode.json|opencode.json"
   "claude|.claude/settings.json|claude-settings.json"
   "opencode|AGENTS.md|AGENTS.md"
@@ -25,6 +25,10 @@ INSTALL_MAP=(
   "mpskills|.agents/skills|Matt Pocock Skills|npx skills@latest add mattpocock/skills"
   "trellis||Trellis|npx @mindfoldhq/trellis init"
 )
+
+ALIASES_TOOL="opencode"
+ALIASES_SKILL="mpskills"
+ALIASES_CONFIG="opencode.json"
 
 TOOL_CHOICES=(
   "1|opencode|OpenCode"

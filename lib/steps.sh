@@ -10,18 +10,13 @@ step1_git_init() {
   fi
 }
 
-step2_gitignore() {
-  step_echo 2
-  ensure_file ".gitignore" "$TEMPLATES_DIR/gitignore" ".gitignore"
-}
-
-step3_templates() {
+step2_templates() {
   local -n plan_ref=$1
-  step_echo 3
+  step_echo 2
 
   for entry in "${TEMPLATE_MAP[@]}"; do
     IFS='|' read -r cond target src <<< "$entry"
-    if [[ ${plan_ref[tool]} == "$cond" || ${plan_ref[tool]} == "both" ]]; then
+    if [[ "$cond" == "always" || ${plan_ref[tool]} == "$cond" || ${plan_ref[tool]} == "both" ]]; then
       local dir
       dir=$(dirname "$target")
       if [[ "$dir" != "." ]]; then
@@ -32,9 +27,9 @@ step3_templates() {
   done
 }
 
-step4_skills() {
+step3_skills() {
   local -n plan_ref=$1
-  step_echo 4
+  step_echo 3
 
   local s="${plan_ref[skills]}"
   for entry in "${INSTALL_MAP[@]}"; do
@@ -46,17 +41,17 @@ step4_skills() {
   done
 }
 
-step5_aliases() {
+step4_aliases() {
   local -n plan_ref=$1
-  step_echo 5
+  step_echo 4
 
-  if [[ ${plan_ref[tool]} != opencode && ${plan_ref[tool]} != both ]] || [[ ${plan_ref[skills]} != mpskills ]]; then
-    echo "  - 跳过（仅 OpenCode + Matt's Skills 时注入）"
+  if [[ ${plan_ref[tool]} != "$ALIASES_TOOL" && ${plan_ref[tool]} != "both" ]] || [[ ${plan_ref[skills]} != "$ALIASES_SKILL" ]]; then
+    echo "  - 跳过（仅 ${ALIASES_TOOL} + ${ALIASES_SKILL} 时注入）"
     return
   fi
 
-  if [ ! -f "opencode.json" ]; then
-    echo "  - opencode.json 不存在，跳过"
+  if [ ! -f "$ALIASES_CONFIG" ]; then
+    echo "  - $ALIASES_CONFIG 不存在，跳过"
     return
   fi
 
@@ -68,7 +63,7 @@ step5_aliases() {
   fi
 }
 
-step6_codegraph() {
-  step_echo 6
+step5_codegraph() {
+  step_echo 5
   confirm_and_run "CodeGraph 索引" "  是否初始化 CodeGraph 索引？" "n" codegraph init
 }

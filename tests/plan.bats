@@ -174,24 +174,9 @@ prompt_choice "选择工具：" TOOL_CHOICES <<< "9" 2>/dev/null
   [ "$status" -eq 1 ]
 }
 
-# ── step2_gitignore ──
+# ── step2_templates ──
 
-@test "step2_gitignore: 从模板写入 .gitignore" {
-  run bash -c '
-SCRIPT_DIR="$0"
-source "$0/lib/config.sh"
-source "$0/lib/utils.sh"
-source "$0/lib/steps.sh"
-cd "$(mktemp -d)"
-step2_gitignore
-[[ -f .gitignore ]] && echo "created" || echo "missing"
-' "$BATS_TEST_DIRNAME/.."
-  [[ "$output" == *"created"* ]]
-}
-
-# ── step3_templates ──
-
-@test "step3_templates: opencode 写入 opencode.json + AGENTS.md" {
+@test "step2_templates: 始终写入 .gitignore" {
   run bash -c '
 SCRIPT_DIR="$0"
 source "$0/lib/config.sh"
@@ -200,8 +185,22 @@ source "$0/lib/steps.sh"
 declare -A PLAN
 PLAN[tool]=opencode
 cd "$(mktemp -d)"
-step3_templates PLAN
-echo "---"
+step2_templates PLAN
+[[ -f .gitignore ]] && echo "created" || echo "missing"
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"created"* ]]
+}
+
+@test "step2_templates: opencode 写入 opencode.json + AGENTS.md" {
+  run bash -c '
+SCRIPT_DIR="$0"
+source "$0/lib/config.sh"
+source "$0/lib/utils.sh"
+source "$0/lib/steps.sh"
+declare -A PLAN
+PLAN[tool]=opencode
+cd "$(mktemp -d)"
+step2_templates PLAN
 ls opencode.json 2>/dev/null && echo "opencode:found"
 ls AGENTS.md 2>/dev/null && echo "agents:found"
 ls .claude/settings.json 2>/dev/null && echo "claude:found"
@@ -211,7 +210,7 @@ ls .claude/settings.json 2>/dev/null && echo "claude:found"
   [[ "$output" != *"claude:found"* ]]
 }
 
-@test "step3_templates: claude 写入 .claude + CLAUDE.md" {
+@test "step2_templates: claude 写入 .claude + CLAUDE.md" {
   run bash -c '
 SCRIPT_DIR="$0"
 source "$0/lib/config.sh"
@@ -220,8 +219,7 @@ source "$0/lib/steps.sh"
 declare -A PLAN
 PLAN[tool]=claude
 cd "$(mktemp -d)"
-step3_templates PLAN
-echo "---"
+step2_templates PLAN
 ls opencode.json 2>/dev/null && echo "opencode:found"
 ls CLAUDE.md 2>/dev/null && echo "claude-md:found"
 ls .claude/settings.json 2>/dev/null && echo "claude-json:found"

@@ -16,15 +16,13 @@ collect_plan
 
 step1_git_init
 echo ""
-step2_gitignore
+step2_templates PLAN
 echo ""
-step3_templates PLAN
+step3_skills PLAN
 echo ""
-step4_skills PLAN
+step4_aliases PLAN
 echo ""
-step5_aliases PLAN
-echo ""
-step6_codegraph
+step5_codegraph
 echo ""
 
 print_plan_summary
