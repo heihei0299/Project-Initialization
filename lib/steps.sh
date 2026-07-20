@@ -65,5 +65,7 @@ step4_aliases() {
 
 step5_codegraph() {
   step_echo 5
-  confirm_and_run "CodeGraph 索引" "  是否初始化 CodeGraph 索引？" "n" codegraph init
+  local step_name
+  step_name=$(step_label 5)
+  confirm_and_run "$step_name" "  是否初始化 $step_name？" "n" codegraph init
 }

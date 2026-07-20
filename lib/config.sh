@@ -13,6 +13,11 @@ step_echo() {
   echo "[Step $num/${#STEP_LABELS[@]}] ${STEP_LABELS[$((num-1))]}"
 }
 
+step_label() {
+  local num=$1
+  echo "${STEP_LABELS[$((num-1))]}"
+}
+
 TEMPLATE_MAP=(
   "always|.gitignore|gitignore"
   "opencode|opencode.json|opencode.json"

@@ -256,3 +256,81 @@ confirm_and_run "测试" "继续？" "n" bash -c "echo should_not_run" <<< "n"
   [[ "$output" == *"跳过"* ]]
   [[ "$output" != *"should_not_run"* ]]
 }
+
+# ── step3_skills ──
+
+@test "step3_skills: mpskills 目录已存在时跳过" {
+  run bash -c '
+SCRIPT_DIR="$0"
+source "$0/lib/config.sh"
+source "$0/lib/utils.sh"
+source "$0/lib/steps.sh"
+declare -A PLAN
+PLAN[skills]=mpskills
+cd "$(mktemp -d)"
+mkdir -p .agents/skills
+step3_skills PLAN
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"已存在"* ]]
+}
+
+@test "step3_skills: trellis 调用 try_install" {
+  run bash -c '
+SCRIPT_DIR="$0"
+source "$0/lib/config.sh"
+source "$0/lib/utils.sh"
+source "$0/lib/steps.sh"
+declare -A PLAN
+PLAN[skills]=trellis
+cd "$(mktemp -d)"
+step3_skills PLAN
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"安装"* ]]
+}
+
+# ── step4_aliases ──
+
+@test "step4_aliases: claude 时跳过" {
+  run bash -c '
+SCRIPT_DIR="$0"
+source "$0/lib/config.sh"
+source "$0/lib/utils.sh"
+source "$0/lib/steps.sh"
+declare -A PLAN
+PLAN[tool]=claude
+PLAN[skills]=mpskills
+cd "$(mktemp -d)"
+step4_aliases PLAN
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"跳过"* ]]
+}
+
+@test "step4_aliases: opencode + mpskills 时执行" {
+  run bash -c '
+SCRIPT_DIR="$0"
+source "$0/lib/config.sh"
+source "$0/lib/utils.sh"
+source "$0/lib/steps.sh"
+declare -A PLAN
+PLAN[tool]=opencode
+PLAN[skills]=mpskills
+cd "$(mktemp -d)"
+touch opencode.json
+step4_aliases PLAN
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" != *"跳过"* ]]
+}
+
+# ── step5_codegraph ──
+
+@test "step5_codegraph: 拒绝时跳过" {
+  run bash -c '
+SCRIPT_DIR="$0"
+source "$0/lib/config.sh"
+source "$0/lib/utils.sh"
+source "$0/lib/steps.sh"
+cd "$(mktemp -d)"
+step5_codegraph PLAN <<< "n"
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"跳过"* ]]
+}
