@@ -19,12 +19,7 @@ step3_templates() {
 
   for entry in "${TEMPLATE_MAP[@]}"; do
     IFS='|' read -r cond target src <<< "$entry"
-    local should_run=false
-    case "$cond" in
-      opencode) [[ ${plan_ref[tool]} == opencode || ${plan_ref[tool]} == both ]] && should_run=true ;;
-      claude)   [[ ${plan_ref[tool]} == claude || ${plan_ref[tool]} == both ]] && should_run=true ;;
-    esac
-    if $should_run; then
+    if [[ ${plan_ref[tool]} == "$cond" || ${plan_ref[tool]} == "both" ]]; then
       local dir
       dir=$(dirname "$target")
       if [[ "$dir" != "." ]]; then
@@ -57,22 +52,21 @@ step5_aliases() {
   local -n plan_ref=$1
   echo "[Step 5/6] 注入 OpenCode 命令别名"
 
-  local tool_ok=false
-  [[ ${plan_ref[tool]} == opencode || ${plan_ref[tool]} == both ]] && tool_ok=true
-
-  if $tool_ok && [[ ${plan_ref[skills]} == mpskills ]]; then
-    if [ -f "opencode.json" ]; then
-      if cmd_available python3; then
-        python3 "$SCRIPT_DIR/scripts/inject-aliases.py"
-        echo "  ✔ 命令别名已注入"
-      else
-        echo "  - python3 未安装，跳过命令别名注入"
-      fi
-    else
-      echo "  - opencode.json 不存在，跳过"
-    fi
-  else
+  if [[ ${plan_ref[tool]} != opencode && ${plan_ref[tool]} != both ]] || [[ ${plan_ref[skills]} != mpskills ]]; then
     echo "  - 跳过（仅 OpenCode + Matt's Skills 时注入）"
+    return
+  fi
+
+  if [ ! -f "opencode.json" ]; then
+    echo "  - opencode.json 不存在，跳过"
+    return
+  fi
+
+  if cmd_available python3; then
+    python3 "$SCRIPT_DIR/scripts/inject-aliases.py"
+    echo "  ✔ 命令别名已注入"
+  else
+    echo "  - python3 未安装，跳过命令别名注入"
   fi
 }
 

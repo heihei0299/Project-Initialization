@@ -1,0 +1,11 @@
+{
+  "name": "project-init",
+  "private": true,
+  "devDependencies": {
+    "bats": "^1.11.0"
+  },
+  "scripts": {
+    "test": "bats tests/",
+    "lint": "bash -n init-project.sh lib/*.sh"
+  }
+}

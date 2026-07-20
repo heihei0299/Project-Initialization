@@ -57,10 +57,16 @@ templates/
 ### 结构说明
 
 ```
-├── init-project.sh            — 初始化脚本（入口检测 → 工具选择 → 条件执行）
-├── opencode.json              — opencode MCP 配置
-├── CONTEXT.md                 — 领域术语表
-├── skills-lock.json           — skills 版本锁定
+├── init-project.sh            — 入口脚本（source + 编排，29 行）
+├── lib/
+│   ├── config.sh              — 常量、模板映射、选项数据
+│   ├── utils.sh               — 辅助函数（ensure_file, cmd_available, try_install 等）
+│   ├── plan.sh                — 决策模块（用户交互、PLAN 构造、格式化函数）
+│   └── steps.sh               — 执行模块（step1~6，从 config 读取配置）
+├── scripts/
+│   └── inject-aliases.py      — 命令别名注入脚本
+├── tests/
+│   └── plan.bats              — bats 测试套件
 ├── templates/
 │   ├── gitignore              — 覆盖全场景的 .gitignore
 │   ├── opencode.json          — MCP 服务器配置 + 命令别名
@@ -68,6 +74,10 @@ templates/
 │   └── AGENTS.md              — CodeGraph 指令文档
 ├── docs/
 │   └── adr/                   — 架构决策记录
+├── opencode.json              — opencode MCP 配置
+├── CONTEXT.md                 — 领域术语表
+├── skills-lock.json           — skills 版本锁定
+├── package.json               — devDependencies（bats）
 └── .agents/skills/            — Matt Pocock Skills（预安装）
 ```
 
