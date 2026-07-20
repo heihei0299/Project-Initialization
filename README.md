@@ -19,15 +19,12 @@ init-project.sh
 | Step | 操作 | 条件 |
 |------|------|------|
 | 1 | `git init` | 共用 |
-| 2 | 写入 `.gitignore`（覆盖全场景） | 共用 |
-| 3 | 写入 `opencode.json`（MCP 配置） | 选 OpenCode 时 |
-| 4 | 写入 `.claude/settings.json`（MCP 配置） | 选 Claude 时 |
-| 5 | 安装技能组（Matt Pocock Skills / Trellis） | 按选择 |
-| 6 | 注入 OpenCode 命令别名 (`grw`/`gm`/`tp`/`tc`/`cw`/`implement`) | OpenCode + Matt's Skills 时 |
-| 7 | 写入 `AGENTS.md` / `CLAUDE.md`（CodeGraph 指令） | 按工具选择 |
-| 8 | CodeGraph 索引（可选，始终询问用户） | 共用 |
+| 2 | 写入配置文件（`.gitignore` + template 按工具选择） | 共用 |
+| 3 | 安装技能组（Matt Pocock Skills / Trellis） | 按选择 |
+| 4 | 注入 OpenCode 命令别名 | OpenCode + Matt's Skills 时 |
+| 5 | CodeGraph 索引（可选） | 共用 |
 
-所有步骤保持幂等，已存在则跳过。
+所有步骤保持幂等，已存在则跳过。步骤标题定义在 `lib/config.sh` 的 `STEP_LABELS` 中。
 
 ### 安装到 PATH
 
@@ -57,12 +54,12 @@ templates/
 ### 结构说明
 
 ```
-├── init-project.sh            — 入口脚本（source + 编排，29 行）
+├── init-project.sh            — 入口脚本（source + 编排，35 行，不含业务逻辑）
 ├── lib/
-│   ├── config.sh              — 常量、模板映射、选项数据
+│   ├── config.sh              — 配置数据（TEMPLATE_MAP、INSTALL_MAP、STEP_LABELS、选项定义）
 │   ├── utils.sh               — 辅助函数（ensure_file, cmd_available, try_install 等）
-│   ├── plan.sh                — 决策模块（用户交互、PLAN 构造、格式化函数）
-│   └── steps.sh               — 执行模块（step1~6，从 config 读取配置）
+│   ├── plan.sh                — 决策模块（_check_git、_collect_tool/_skill、格式化函数）
+│   └── steps.sh               — 执行模块（step1~5，全部数据驱动，无内联条件）
 ├── scripts/
 │   └── inject-aliases.py      — 命令别名注入脚本
 ├── tests/
@@ -84,5 +81,8 @@ templates/
 ### 相关技巧
 
 - **skills 更新**: `.agents/skills/` 和 `skills-lock.json` 由 `npx skills@latest add mattpocock/skills` 管理
-- **新增步骤**: 编辑 `init-project.sh`，在对应位置添加新步骤，使用 `ensure_file` 保持幂等
-- **opencode.json**: 编辑 `templates/opencode.json` 即可，别名在 Step 6 自动注入
+- **新增步骤**: 在 `lib/steps.sh` 添加函数 → `lib/config.sh` 的 `STEP_LABELS` 加标题 → `init-project.sh` 编排调用
+- **新增模板文件**: `lib/config.sh` 的 `TEMPLATE_MAP` 加条目 → 文件放入 `templates/`
+- **新增工具选项**: `lib/config.sh` 的 `TOOL_CHOICES` 加条目 → `TEMPLATE_MAP` 加对应条件
+- **新增技能组**: `lib/config.sh` 的 `SKILL_CHOICES` 加条目 → `INSTALL_MAP` 加安装命令
+- **opencode.json**: 编辑 `templates/opencode.json` 即可，别名在 Step 4 自动注入
