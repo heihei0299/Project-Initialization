@@ -188,3 +188,38 @@ step3 条件简化、step5 扁平化、package.json+README 更新、step4 数据
 ### Next Steps
 
 - None - task complete
+
+
+## Session 5: 增强 tickets 实施 + 别名路径 bug 修复
+
+**Date**: 2026-07-21
+**Task**: 增强 tickets 实施 + 别名路径 bug 修复
+**Branch**: `master`
+
+### Summary
+
+并行实施 4 个增强 tickets（shellcheck 集成/CI 自动化/端到端测试/Python 测试）；修复 inject-aliases.py 输出路径指向模板目录而非新项目的 bug；e2e 测试增加别名目录断言
+
+### Main Changes
+
+- Detailed change bullets were not supplied; see the summary above.
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `5930e9b` | (see git log) |
+| `5478b9a` | (see git log) |
+| `0b8b06e` | (see git log) |
+
+### Testing
+
+- Validation was not recorded for this session.
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
