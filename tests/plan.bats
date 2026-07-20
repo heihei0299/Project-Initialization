@@ -397,6 +397,9 @@ confirm_and_run "测试" "继续？" "y" bash -c "exit 1"
   [ -f "AGENTS.md" ]
   [ -f ".gitignore" ]
   [ ! -d ".claude" ]
+  [ -d ".opencode/commands" ]
+  [ -f ".opencode/commands/tc.md" ]
+  [ -f ".opencode/commands/tp.md" ]
   [[ "$output" == *"工具: OpenCode"* ]]
   [[ "$output" == *"技能: Matt Pocock Skills"* ]]
 }
