@@ -7,6 +7,11 @@ TEMPLATE_MAP=(
   "claude|CLAUDE.md|AGENTS.md"
 )
 
+INSTALL_MAP=(
+  "mpskills|.agents/skills|Matt Pocock Skills|npx skills@latest add mattpocock/skills"
+  "trellis||Trellis|npx @mindfoldhq/trellis init"
+)
+
 TOOL_CHOICES=(
   "1|opencode|OpenCode"
   "2|claude|Claude"

@@ -2,9 +2,11 @@ step1_git_init() {
   echo "[Step 1/6] 初始化 Git 仓库"
   if [ -d ".git" ]; then
     echo "  ✔ .git/ 已存在，跳过"
-  else
+  elif cmd_available git; then
     git init
     echo "  ✔ git init 完成"
+  else
+    echo "  - git 未安装，跳过"
   fi
 }
 
@@ -34,18 +36,14 @@ step4_skills() {
   local -n plan_ref=$1
   echo "[Step 4/6] 安装技能组"
 
-  case "${plan_ref[skills]}" in
-    mpskills)
-      if [ -d ".agents/skills" ]; then
-        echo "  ✔ .agents/skills/ 已存在，跳过"
-      else
-        try_install "Matt Pocock Skills" npx skills@latest add mattpocock/skills
-      fi
-      ;;
-    trellis)
-      try_install "Trellis" npx @mindfoldhq/trellis init
-      ;;
-  esac
+  local s="${plan_ref[skills]}"
+  for entry in "${INSTALL_MAP[@]}"; do
+    IFS='|' read -r key check_dir label cmd <<< "$entry"
+    [[ "$s" != "$key" ]] && continue
+    [[ -n "$check_dir" && -d "$check_dir" ]] && { echo "  ✔ $check_dir/ 已存在，跳过"; return; }
+    try_install "$label" $cmd
+    return
+  done
 }
 
 step5_aliases() {

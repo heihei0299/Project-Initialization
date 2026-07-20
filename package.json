@@ -6,6 +6,6 @@
   },
   "scripts": {
     "test": "bats tests/",
-    "lint": "bash -n init-project.sh lib/*.sh"
+    "lint": "bash -n init-project.sh lib/*.sh && python3 -m py_compile scripts/*.py"
   }
 }
