@@ -153,3 +153,38 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 4: 重构第 5-7 轮：最终解耦与验证
+
+**Date**: 2026-07-21
+**Task**: 重构第 5-7 轮：最终解耦与验证
+**Branch**: `master`
+
+### Summary
+
+step3 条件简化、step5 扁平化、package.json+README 更新、step4 数据驱动、step1 git 检查、Python lint、step 编号常量化（step_echo）、ADR-0004、全路径验证通过
+
+### Main Changes
+
+- Detailed change bullets were not supplied; see the summary above.
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `a783997` | (see git log) |
+| `dd01b80` | (see git log) |
+| `ee964b0` | (see git log) |
+
+### Testing
+
+- Validation was not recorded for this session.
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
