@@ -20,3 +20,10 @@
 ## 状态
 
 已接受。
+
+## 后续变更
+
+- **ADR-0002**: Step 编号从 1-8 压缩为 1-6（Plan/Execution seam，模板合并）
+- **ADR-0004**: Step 编号进一步压缩为 1-5（.gitignore 合并到 templates）
+
+当前 Step 编号为 1-5，定义在 `$STEP_LABELS` 数组中，修改时只需更新数组。
