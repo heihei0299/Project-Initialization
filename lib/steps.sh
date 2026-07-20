@@ -56,7 +56,7 @@ step4_aliases() {
   fi
 
   if cmd_available python3; then
-    python3 "$SCRIPT_DIR/scripts/inject-aliases.py"
+    python3 "$PROJECT_ROOT/scripts/inject-aliases.py"
     echo "  ✔ 命令别名已注入"
   else
     echo "  - python3 未安装，跳过命令别名注入"

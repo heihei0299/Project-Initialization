@@ -1,4 +1,6 @@
-TEMPLATES_DIR="$SCRIPT_DIR/templates"
+_LIB_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+PROJECT_ROOT="$_LIB_DIR/.."
+TEMPLATES_DIR="$PROJECT_ROOT/templates"
 
 STEP_LABELS=(
   "初始化 Git 仓库"

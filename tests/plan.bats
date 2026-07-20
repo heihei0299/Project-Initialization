@@ -69,7 +69,7 @@ source "$0/lib/plan.sh"
 declare -A PLAN
 PLAN[tool]=opencode
 PLAN[skills]=trellis
-print_plan_summary
+print_plan_summary PLAN
 ' "$BATS_TEST_DIRNAME/.."
   [[ "$output" == *"OpenCode"* ]]
   [[ "$output" == *"Trellis"* ]]
@@ -81,7 +81,7 @@ source "$0/lib/plan.sh"
 declare -A PLAN
 PLAN[tool]=claude
 PLAN[skills]=mpskills
-print_plan_summary
+print_plan_summary PLAN
 ' "$BATS_TEST_DIRNAME/.."
   [[ "$output" == *"Claude"* ]]
   [[ "$output" == *"Matt Pocock Skills"* ]]
@@ -93,7 +93,7 @@ source "$0/lib/plan.sh"
 declare -A PLAN
 PLAN[tool]=both
 PLAN[skills]=trellis
-print_plan_summary
+print_plan_summary PLAN
 ' "$BATS_TEST_DIRNAME/.."
   [[ "$output" == *"OpenCode"* ]]
   [[ "$output" == *"Claude"* ]]
@@ -119,7 +119,7 @@ print_plan_summary
 source "$0/lib/plan.sh"
 declare -A PLAN
 PLAN[tool]=opencode
-tool_label
+tool_label PLAN
 ' "$BATS_TEST_DIRNAME/.."
   [[ "$output" == "OpenCode" ]]
 }
@@ -129,7 +129,7 @@ tool_label
 source "$0/lib/plan.sh"
 declare -A PLAN
 PLAN[tool]=both
-tool_label
+tool_label PLAN
 ' "$BATS_TEST_DIRNAME/.."
   [[ "$output" == "OpenCode Claude" ]]
 }
@@ -139,7 +139,7 @@ tool_label
 source "$0/lib/plan.sh"
 declare -A PLAN
 PLAN[skills]=mpskills
-skills_label
+skills_label PLAN
 ' "$BATS_TEST_DIRNAME/.."
   [[ "$output" == "Matt Pocock Skills" ]]
 }
@@ -149,7 +149,7 @@ skills_label
 source "$0/lib/plan.sh"
 declare -A PLAN
 PLAN[skills]=trellis
-skills_label
+skills_label PLAN
 ' "$BATS_TEST_DIRNAME/.."
   [[ "$output" == "Trellis" ]]
 }
