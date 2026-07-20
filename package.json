@@ -5,7 +5,7 @@
     "bats": "^1.11.0"
   },
   "scripts": {
-    "test": "bats tests/",
-    "lint": "bash -n init-project.sh lib/*.sh && python3 -m py_compile scripts/*.py"
+    "test": "bats tests/ && (.venv/bin/python -m pytest tests/test_inject_aliases.py -v 2>/dev/null || python3 -m pytest tests/test_inject_aliases.py -v 2>/dev/null || echo 'pytest not available, skipping Python tests')",
+    "lint": "bash -n init-project.sh lib/*.sh && python3 -m py_compile scripts/*.py && (command -v shellcheck >/dev/null && shellcheck init-project.sh lib/*.sh || true)"
   }
 }

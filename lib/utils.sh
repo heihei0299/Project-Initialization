@@ -1,5 +1,8 @@
+# shellcheck shell=bash
+
 ensure_file() {
-  local path="$1" src="$2" label="${3:-$path}"
+  local path="$1" src="$2"
+  local label="${3:-$path}"
   if [ -f "$path" ]; then
     echo "  ✔ $label 已存在，跳过"
   else
@@ -9,7 +12,8 @@ ensure_file() {
 }
 
 ensure_dir() {
-  local path="$1" label="${2:-$path}"
+  local path="$1"
+  local label="${2:-$path}"
   if [ -d "$path" ]; then
     echo "  ✔ $label/ 已存在，跳过"
   else

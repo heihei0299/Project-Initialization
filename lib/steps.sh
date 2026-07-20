@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 step1_git_init() {
   step_echo 1
   if [ -d ".git" ]; then
@@ -38,7 +40,9 @@ step3_skills() {
     IFS='|' read -r key check_dir label cmd <<< "$entry"
     [[ "$s" != "$key" ]] && continue
     [[ -n "$check_dir" && -d "$check_dir" ]] && { echo "  ✔ $check_dir/ 已存在，跳过"; return; }
-    try_install "$label" $cmd
+    # Split cmd by spaces into array to avoid SC2086
+    IFS=' ' read -ra cmd_arr <<< "$cmd"
+    try_install "$label" "${cmd_arr[@]}"
     return
   done
 }

@@ -13,6 +13,7 @@ source "$ROOT_DIR/lib/config.sh"
 source "$ROOT_DIR/lib/plan.sh"
 source "$ROOT_DIR/lib/steps.sh"
 
+# shellcheck disable=SC2034 # PLAN is used via nameref in collect_plan and step functions
 declare -A PLAN
 
 collect_plan || exit

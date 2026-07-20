@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 tool_label() {
   local -n plan_ref=$1
   case "${plan_ref[tool]}" in
@@ -61,7 +63,9 @@ collect_plan() {
   skill_val=$(_collect_skill) || return 1
   echo ""
 
+  # shellcheck disable=SC2034 # PLAN is populated here and read by caller via nameref
   PLAN[tool]="$tool_val"
+  # shellcheck disable=SC2034 # PLAN is populated here and read by caller via nameref
   PLAN[skills]="$skill_val"
 
   echo "准备初始化："

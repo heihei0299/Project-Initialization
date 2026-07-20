@@ -1,7 +1,9 @@
+# shellcheck shell=bash
+
 _LIB_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT="$_LIB_DIR/.."
-TEMPLATES_DIR="$PROJECT_ROOT/templates"
-CONFIG_DELIM='|'
+export TEMPLATES_DIR="$PROJECT_ROOT/templates"
+export CONFIG_DELIM='|'
 
 STEP_LABELS=(
   "初始化 Git 仓库"
@@ -21,6 +23,7 @@ step_label() {
   echo "${STEP_LABELS[$((num-1))]}"
 }
 
+# shellcheck disable=SC2034 # used by steps.sh via source
 TEMPLATE_MAP=(
   "always|.gitignore|gitignore"
   "opencode|opencode.json|opencode.json"
@@ -29,21 +32,24 @@ TEMPLATE_MAP=(
   "claude|CLAUDE.md|AGENTS.md"
 )
 
+# shellcheck disable=SC2034 # used by steps.sh via source
 INSTALL_MAP=(
   "mpskills|.agents/skills|Matt Pocock Skills|npx skills@latest add mattpocock/skills"
   "trellis||Trellis|npx @mindfoldhq/trellis init"
 )
 
-ALIASES_TOOL="opencode"
-ALIASES_SKILL="mpskills"
-ALIASES_CONFIG="opencode.json"
+export ALIASES_TOOL="opencode"
+export ALIASES_SKILL="mpskills"
+export ALIASES_CONFIG="opencode.json"
 
+# shellcheck disable=SC2034 # used by plan.sh via source
 TOOL_CHOICES=(
   "1|opencode|OpenCode"
   "2|claude|Claude"
   "3|both|两者都选"
 )
 
+# shellcheck disable=SC2034 # used by plan.sh via source
 SKILL_CHOICES=(
   "1|mpskills|Matt Pocock Skills (npx skills@latest add mattpocock/skills)"
   "2|trellis|Trellis (npx @mindfoldhq/trellis init)"

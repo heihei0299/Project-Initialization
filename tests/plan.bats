@@ -387,3 +387,32 @@ confirm_and_run "测试" "继续？" "y" bash -c "exit 1"
   [[ "$output" == *"⚠"* ]]
   [ "$status" -eq 1 ]
 }
+
+# ── init-project 集成测试 ──
+
+@test "init-project: OpenCode + MPSkills 完整流程" {
+  cd "$TEST_DIR"
+  run timeout 300 bash -c 'printf "y\n1\n1\nn\n" | "$0/init-project.sh"' "$BATS_TEST_DIRNAME/.."
+  [ -f "opencode.json" ]
+  [ -f "AGENTS.md" ]
+  [ -f ".gitignore" ]
+  [ ! -d ".claude" ]
+  [[ "$output" == *"工具: OpenCode"* ]]
+  [[ "$output" == *"技能: Matt Pocock Skills"* ]]
+}
+
+@test "init-project: Claude + Trellis 完整流程" {
+  cd "$TEST_DIR"
+  run timeout 300 bash -c 'printf "y\n2\n2\nn\n" | "$0/init-project.sh"' "$BATS_TEST_DIRNAME/.."
+  [ -f ".claude/settings.json" ]
+  [ -f "CLAUDE.md" ]
+  [ ! -f "opencode.json" ]
+  [[ "$output" == *"工具: Claude"* ]]
+}
+
+@test "init-project: both 完整流程" {
+  cd "$TEST_DIR"
+  run timeout 300 bash -c 'printf "y\n3\n1\nn\n" | "$0/init-project.sh"' "$BATS_TEST_DIRNAME/.."
+  [ -f "opencode.json" ]
+  [ -f ".claude/settings.json" ]
+}
