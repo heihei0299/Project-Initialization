@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if ((BASH_VERSINFO[0] < 4)); then
+  echo "错误：需要 bash 4.0 或更高版本" >&2
+  exit 1
+fi
+
 ROOT_DIR=$(cd "$(dirname "$0")" && pwd)
 
 source "$ROOT_DIR/lib/utils.sh"

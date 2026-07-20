@@ -15,10 +15,7 @@ skills_label() {
   esac
 }
 
-collect_plan() {
-  echo "=== 项目初始化: $(pwd) ==="
-  echo ""
-
+_check_git_status() {
   if [ -d ".git" ]; then
     echo "→ 当前目录已是一个 Git 仓库。"
     if ! yes_no "  是否仍要运行初始化？" "n"; then
@@ -32,18 +29,36 @@ collect_plan() {
       return 1
     fi
   fi
+}
+
+_collect_tool() {
+  local val
+  val=$(prompt_choice "请选择要初始化的目标工具：" TOOL_CHOICES) || {
+    echo "❌ 无效选项，退出。" >&2; return 1
+  }
+  echo "$val"
+}
+
+_collect_skill() {
+  local val
+  val=$(prompt_choice "请选择技能组框架：" SKILL_CHOICES) || {
+    echo "❌ 无效选项，退出。" >&2; return 1
+  }
+  echo "$val"
+}
+
+collect_plan() {
+  echo "=== 项目初始化: $(pwd) ==="
+  echo ""
+
+  _check_git_status || return 1
   echo ""
 
   local tool_val skill_val
 
-  tool_val=$(prompt_choice "请选择要初始化的目标工具：" TOOL_CHOICES) || {
-    echo "❌ 无效选项，退出。"; return 1
-  }
+  tool_val=$(_collect_tool) || return 1
   echo ""
-
-  skill_val=$(prompt_choice "请选择技能组框架：" SKILL_CHOICES) || {
-    echo "❌ 无效选项，退出。"; return 1
-  }
+  skill_val=$(_collect_skill) || return 1
   echo ""
 
   PLAN[tool]="$tool_val"

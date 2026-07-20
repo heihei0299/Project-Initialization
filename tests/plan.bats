@@ -334,3 +334,56 @@ step5_codegraph PLAN <<< "n"
 ' "$BATS_TEST_DIRNAME/.."
   [[ "$output" == *"跳过"* ]]
 }
+
+# ── step1_git_init ──
+
+@test "step1_git_init: 无 .git 且 git 可用时初始化" {
+  run bash -c '
+source "$0/lib/utils.sh"
+source "$0/lib/steps.sh"
+cd "$(mktemp -d)"
+step1_git_init
+[[ -d .git ]] && echo "init ok" || echo "no git"
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"init ok"* ]]
+}
+
+@test "step1_git_init: .git 已存在时跳过" {
+  run bash -c '
+source "$0/lib/utils.sh"
+source "$0/lib/steps.sh"
+cd "$(mktemp -d)"
+git init --quiet
+step1_git_init
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"已存在"* ]]
+}
+
+# ── try_install ──
+
+@test "try_install: 命令成功时标记已安装" {
+  run bash -c '
+source "$0/lib/utils.sh"
+try_install "测试" bash -c "exit 0"
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"已安装"* ]]
+}
+
+@test "try_install: 命令失败时标记失败" {
+  run bash -c '
+source "$0/lib/utils.sh"
+try_install "测试" bash -c "exit 1"
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"失败"* ]]
+}
+
+# ── confirm_and_run 命令失败 ──
+
+@test "confirm_and_run: 命令失败时返回 1" {
+  run bash -c '
+source "$0/lib/utils.sh"
+confirm_and_run "测试" "继续？" "y" bash -c "exit 1"
+' "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *"⚠"* ]]
+  [ "$status" -eq 1 ]
+}
