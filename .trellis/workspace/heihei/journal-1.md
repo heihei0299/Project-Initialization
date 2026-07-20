@@ -117,3 +117,39 @@
 ### Status
 
 [OK] **Completed**
+
+
+## Session 3: 四轮低耦合重构完成
+
+**Date**: 2026-07-21
+**Task**: 四轮低耦合重构完成
+**Branch**: `master`
+
+### Summary
+
+将 init-project.sh 从 278 行单体拆分为模块化架构（入口+lib/4 模块+Python 脚本），引入 bats 测试（19 tests），配置外部化，case 重复消除，CLI 守卫提取，输入数据驱动，ADR-0003 文档化
+
+### Main Changes
+
+- Detailed change bullets were not supplied; see the summary above.
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `a4cc55c` | (see git log) |
+| `eceedd9` | (see git log) |
+| `d398c18` | (see git log) |
+| `05d837e` | (see git log) |
+
+### Testing
+
+- Validation was not recorded for this session.
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
