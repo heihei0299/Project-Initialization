@@ -190,7 +190,7 @@ step5_aliases() {
     if [ -f "opencode.json" ]; then
       if command -v python3 &>/dev/null; then
         python3 -c "
-import json, os, pathlib
+import os, pathlib
 
 cmds_dir = '.opencode/commands'
 pathlib.Path(cmds_dir).mkdir(parents=True, exist_ok=True)
@@ -213,15 +213,6 @@ for name, info in cmd_entries.items():
         f.write('---\n')
         f.write('\n')
         f.write(f'{info[\"template\"]}\n')
-
-aliases = {name: {'templateFile': f'{cmds_dir}/{name}.md', 'description': info['desc']} for name, info in cmd_entries.items()}
-
-with open('opencode.json') as f:
-    cfg = json.load(f)
-cfg.setdefault('command', {}).update(aliases)
-with open('opencode.json', 'w') as f:
-    json.dump(cfg, f, indent=2)
-    f.write('\n')
 "
         echo "  ✔ 命令别名已注入"
       else
