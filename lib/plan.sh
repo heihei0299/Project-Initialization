@@ -1,3 +1,18 @@
+tool_label() {
+  case "${PLAN[tool]}" in
+    opencode) echo "OpenCode" ;;
+    claude)   echo "Claude" ;;
+    both)     echo "OpenCode Claude" ;;
+  esac
+}
+
+skills_label() {
+  case "${PLAN[skills]}" in
+    mpskills) echo "Matt Pocock Skills" ;;
+    trellis)  echo "Trellis" ;;
+  esac
+}
+
 collect_plan() {
   echo "=== 项目初始化: $(pwd) ==="
   echo ""
@@ -44,15 +59,8 @@ collect_plan() {
   esac
 
   echo "准备初始化："
-  case "${PLAN[tool]}" in
-    opencode) echo "  • OpenCode 配置" ;;
-    claude)   echo "  • Claude 配置" ;;
-    both)     echo "  • OpenCode 配置"; echo "  • Claude 配置" ;;
-  esac
-  case "${PLAN[skills]}" in
-    mpskills) echo "  • Matt Pocock Skills" ;;
-    trellis)  echo "  • Trellis" ;;
-  esac
+  echo "  • $(tool_label)"
+  echo "  • $(skills_label)"
   echo ""
 }
 
@@ -60,18 +68,7 @@ print_plan_summary() {
   echo "========================"
   echo " 初始化完成！"
   echo " 目录: $(pwd)"
-  echo -n " 工具: "
-  case "${PLAN[tool]}" in
-    opencode) echo -n 'OpenCode ' ;;
-    claude)   echo -n 'Claude '  ;;
-    both)     echo -n 'OpenCode Claude ' ;;
-  esac
-  echo ""
-  echo -n " 技能: "
-  case "${PLAN[skills]}" in
-    mpskills) echo -n 'Matt Pocock Skills ' ;;
-    trellis)  echo -n 'Trellis ' ;;
-  esac
-  echo ""
+  echo " 工具: $(tool_label)"
+  echo " 技能: $(skills_label)"
   echo "========================"
 }

@@ -44,21 +44,11 @@ step4_skills() {
       if [ -d ".agents/skills" ]; then
         echo "  ✔ .agents/skills/ 已存在，跳过"
       else
-        echo "  → 正在安装 Matt Pocock Skills..."
-        if ! npx skills@latest add mattpocock/skills; then
-          echo "  ⚠ 安装失败，请检查网络或手动重试"
-        else
-          echo "  ✔ Matt Pocock Skills 已安装"
-        fi
+        try_install "Matt Pocock Skills" npx skills@latest add mattpocock/skills
       fi
       ;;
     trellis)
-      echo "  → 正在安装 Trellis..."
-      if ! npx @mindfoldhq/trellis init; then
-        echo "  ⚠ 安装失败，请检查网络或手动重试"
-      else
-        echo "  ✔ Trellis 已安装"
-      fi
+      try_install "Trellis" npx @mindfoldhq/trellis init
       ;;
   esac
 }

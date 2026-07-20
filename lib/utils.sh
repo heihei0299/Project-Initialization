@@ -18,6 +18,17 @@ ensure_dir() {
   fi
 }
 
+try_install() {
+  local label="$1"
+  shift
+  echo "  → 正在安装 $label..."
+  if ! "$@"; then
+    echo "  ⚠ 安装失败，请检查网络或手动重试"
+  else
+    echo "  ✔ $label 已安装"
+  fi
+}
+
 yes_no() {
   local prompt="$1" default="${2:-Y}"
   while true; do
